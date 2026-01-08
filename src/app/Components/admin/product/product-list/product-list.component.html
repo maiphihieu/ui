@@ -1,0 +1,61 @@
+<div class="table-header">
+  <h1>Danh sách Sản phẩm</h1>
+
+  <div class="filters">
+    <select (change)="onStoreChange($event)">
+      <option value="">-- Lọc theo Thương hiệu --</option>
+      @for(store of stores; track store.id) {
+      <option [value]="store.id">{{ store.name }}</option>
+      }
+    </select>
+
+    <select (change)="onCategoryChange($event)" [disabled]="!selectedStoreId">
+      <option value="">-- Lọc theo Danh mục --</option>
+      @for(category of categories; track category.id) {
+      <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <a routerLink="/admin/products/new" class="btn-add">Thêm mới</a>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Ảnh sản phẩm</th>
+      <th>Tên sản phẩm</th>
+      <th>Giá</th>
+      <th>Danh mục</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (product of products; track product.id) {
+    <tr>
+      <td>{{ product.id }}</td>
+      <td>
+        <img [src]="'assets/img/'+product.imageUrl" alt="logo" class="thumbnail">
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price | number }}đ</td>
+      <td>{{ product.categoryName }}</td>
+      <td>
+        <a [routerLink]="['/admin/products/edit', product.id]" class="btn-edit">Sửa</a>
+        <button (click)="deleteProduct(product.id)" class="btn-delete">Xóa</button>
+      </td>
+    </tr>
+    } @empty {
+    <tr>
+      <td colspan="5">Không có dữ liệu</td>
+    </tr>
+    }
+  </tbody>
+</table>
+
+<div class="pagination-controls">
+  <button (click)="loadProducts(currentPage - 1)" [disabled]="currentPage === 1">Trước</button>
+  <span>Trang {{ currentPage }} / {{ totalPages }} (Tổng số: {{ totalCount }})</span>
+  <button (click)="loadProducts(currentPage + 1)" [disabled]="currentPage === totalPages">Sau</button>
+</div>

@@ -1,0 +1,163 @@
+/* --- Lớp phủ nền tối --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* --- Khung Modal chính (trượt từ dưới lên) --- */
+.modal-content {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: #f9f9fa;
+    /* Màu nền xám nhạt cho toàn bộ modal */
+    height: 90vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    animation: slide-up 0.3s ease-out;
+    overflow: hidden;
+}
+
+/* --- Phần thân modal (chứa ảnh và thẻ thông tin) --- */
+.modal-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0;
+    /* Bỏ padding để ảnh tràn lề */
+}
+
+/* --- Header & Nút Back (nằm đè lên ảnh) --- */
+.modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 15px;
+    z-index: 10;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn svg {
+    color: #ffffff;
+}
+
+/* --- Ảnh sản phẩm --- */
+.product-image-large {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    /* Hiển thị toàn bộ ảnh */
+    background-color: #e9e9e9;
+    display: block;
+    /* Bỏ khoảng trống thừa dưới ảnh */
+}
+
+/* --- Thẻ thông tin màu trắng (đè lên ảnh) --- */
+
+
+.product-info-card {
+    background: #ffffff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px 15px;
+    margin-top: -20px;
+    position: relative;
+    min-height: calc(100% - 280px);
+}
+
+.product-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+/* --- Ô ghi chú --- */
+.note-section textarea {
+    width: 100%;
+    border: 1px solid #f0f0f0;
+    background: #f9f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    min-height: 80px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* --- Footer (chứa nút bấm) --- */
+.modal-footer {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+/* --- Bộ chọn số lượng --- */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.quantity-btn {
+    background: #f1f1f1;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.quantity-selector span {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* --- Nút "Thêm vào giỏ" --- */
+.btn-add-to-cart {
+    flex-grow: 1;
+    background: #f7941e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* --- Hiệu ứng trượt lên --- */
+@keyframes slide-up {
+    from {
+        transform: translate(-50%, 100%);
+    }
+
+    to {
+        transform: translate(-50%, 0);
+    }
+}

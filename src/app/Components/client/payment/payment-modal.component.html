@@ -1,0 +1,26 @@
+<div class="modal-overlay" (click)="close.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Gọi thanh toán</h3>
+      <p>Bạn muốn thanh toán bàn <strong>{{ tableName }}</strong> bằng?</p>
+    </div>
+    <div class="payment-options">
+      <label class="option">
+        <input type="radio" name="paymentMethod" value="Tiền mặt" [(ngModel)]="paymentMethod">
+       <img src="assets/img/tienmat.png" alt="tiền mặt">
+        <span>Tiền mặt</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="paymentMethod" value="Thẻ ngân hàng" [(ngModel)]="paymentMethod">
+        <img src="assets/img/the.png" alt="tiền mặt">
+        <span>Thẻ ngân hàng</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="paymentMethod" value="Ứng dụng điện thoại" [(ngModel)]="paymentMethod">
+        <img src="assets/img/pay.png" alt="tiền mặt">
+        <span>Ứng dụng điện thoại</span>
+      </label>
+    </div>
+    <button (click)="onRequest()" class="btn-submit">Gửi yêu cầu</button>
+  </div>
+</div>

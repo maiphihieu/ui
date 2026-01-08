@@ -1,0 +1,156 @@
+<div class="menu-container">
+    <header class="menu-header">
+        <a [routerLink]="['/',token]" class="home-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L8.354 1.146zM2.5 7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+            </svg>
+        </a>
+        <div class="search-bar">
+            <input type="text" placeholder="Bạn muốn tìm món gì?" [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()">
+        </div>
+    </header>
+
+    <div class="category-tabs-container">
+        <nav class="category-tabs" #categoryTabs>
+            @for(section of menuData; track section.categoryId; let i = $index) {
+            <a #categoryLink (click)="scrollToCategory(section.categoryId, i)"
+                [class.active]="section.categoryId === selectedCategory?.id">
+                {{ section.categoryName }}
+            </a>
+            }
+            <span class="slider" #slider></span>
+        </nav>
+        <button class="category-dropdown-btn" (click)="openCategoryModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+            </svg>
+        </button>
+    </div>
+
+    <section class="product-list" #productListContainer (scroll)="onScroll($event)">
+        @if(searchTerm){
+        <div class="search-results">
+            <h2 class="category-title">Kết quả cho '{{ searchTerm }}'</h2>
+            @for(product of searchResults; track product.id) {
+            <div class="product-item" (click)="openDetailModal(product)">
+                <img [src]="'assets/img/'+ product.imageUrl" alt="{{ product.name }}" class="product-image-small">
+                <div class="product-details">
+                    <h4 class="product-name">{{ product.name }}</h4>
+                    <p class="product-price">{{ product.price | number }} đ</p>
+                </div>
+                @if (getQuantity(product.id) === 0) {
+                <button (click)="addToCart(product); $event.stopPropagation()" class="btn-add-circle">+</button>
+                } @else {
+                <div class="quantity-control" (click)="$event.stopPropagation()">
+                    <button (click)="decreaseQuantity(product)" class="quantity-btn">-</button>
+                    <span>{{ getQuantity(product.id) }}</span>
+                    <button (click)="increaseQuantity(product)" class="quantity-btn">+</button>
+                </div>
+                }
+            </div>
+            } @empty {
+            <p class="loading-text">Không tìm thấy sản phẩm nào.</p>
+            }
+        </div>
+        }
+        @else {
+        @if(isLoading) {
+        <p class="loading-text">Đang tải menu...</p>
+        } @else {
+        @for(section of menuData; track section.categoryId) {
+        <div class="category-section">
+            <h2 class="category-title" [id]="'category-' + section.categoryId" #categoryTitle>
+                {{ section.categoryName }}
+            </h2>
+            @for(product of section.products; track product.id) {
+            <div class="product-item" (click)="openDetailModal(product)">
+                <img [src]="'assets/img/'+ product.imageUrl" alt="{{ product.name }}" class="product-image-small">
+                <div class="product-details">
+                    <h4 class="product-name">{{ product.name }}</h4>
+                    <p class="product-price">{{ product.price | number }} đ</p>
+                </div>
+                @if (getQuantity(product.id) === 0) {
+                <button (click)="addToCart(product); $event.stopPropagation()" class="btn-add-circle">+</button>
+                } @else {
+                <div class="quantity-control">
+                    <button (click)="decreaseQuantity(product); $event.stopPropagation()"
+                        class="quantity-btn">-</button>
+
+                    <span>{{ getQuantity(product.id) }}</span>
+
+                    <button (click)="increaseQuantity(product); $event.stopPropagation()"
+                        class="quantity-btn">+</button>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }
+        }
+        }
+
+    </section>
+</div>
+
+@if(cartService.items$ | async; as cartItems) {
+@if (cartItems.length > 0) {
+<footer class="app-footer-cart">
+    <div class="cart-info">
+        <div class="cart-item-images">
+
+            @for (item of cartItems.slice(0, 4); track item.product.id) {
+            <img [src]="'assets/img/'+ item.product.imageUrl" class="cart-item-img">
+            }
+
+            @if (cartItems.length > 4) {
+            <div class="cart-item-img cart-item-more">
+                <span>+{{ cartItems.length - 4 }}</span>
+            </div>
+            }
+
+        </div>
+
+    </div>
+    <button class="btn-view-cart" [routerLink]="['/cart', token]">
+        <div class="cart-total">
+            <strong>{{ cartService.getTotalAmount() | number }} </strong>
+        </div>
+        <h4>Xem và xác nhận</h4>
+    </button>
+</footer>
+}
+}
+@if (isCategoryModalVisible) {
+<div class=" modal-overlay" (click)="closeCategoryModal()">
+    <div class="category-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Nhóm món</h3>
+            <button (click)="closeCategoryModal()" class="close-btn">&times;</button>
+        </div>
+        <ul class="modal-list">
+            @for(section of menuData; track section.categoryId; let i = $index) {
+            <li (click)="selectCategoryFromModal(section.categoryId, i)"
+                [class.active]="section.categoryId === selectedCategory?.id">
+                <span>{{ section.categoryName }}</span>
+                @if(section.categoryId === selectedCategory?.id) {
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="checkmark"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                </svg>
+                }
+            </li>
+            }
+        </ul>
+    </div>
+</div>
+}
+
+@if (isDetailModalVisible) {
+<app-product-detail-modal [product]="productForDetail" (close)="closeDetailModal()"
+    (addToCart)="handleAddToCartFromModal($event)">
+</app-product-detail-modal>
+}

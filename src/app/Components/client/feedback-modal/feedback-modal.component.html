@@ -1,0 +1,25 @@
+<div class="modal-overlay" (click)="close.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <button (click)="close.emit()" class="close-btn">&times;</button>
+    <h3>Trải nghiệm của bạn ở nhà hàng hôm nay thế nào?</h3>
+    <div class="stars">
+      @for(star of [1,2,3,4,5]; track star) {
+        <span (click)="setRating(star)" [class.selected]="rating >= star">&#9733;</span>
+      }
+    </div>
+    <div class="feedback-section">
+      <p>Bạn có điều gì chưa hài lòng phải không?</p>
+      <div class="tags">
+        @for(tag of feedbackTags; track tag) {
+          <button (click)="toggleTag(tag)" [class.selected]="selectedTags.includes(tag)">{{tag}}</button>
+        }
+      </div>
+      <textarea [(ngModel)]="comment" placeholder="Viết góp ý cho nhà hàng..."></textarea>
+    </div>
+    <div class="phone-section">
+      <p>Nhà hàng rất trân trọng và mong muốn phản hồi lại đánh giá trên, bạn vui lòng để lại số điện thoại nhé</p>
+      <input type="tel" [(ngModel)]="phoneNumber" placeholder="Số điện thoại của bạn">
+    </div>
+    <button (click)="submitFeedback()" [disabled]="isSubmitting" class="btn-submit">Gửi đánh giá</button>
+  </div>
+</div>

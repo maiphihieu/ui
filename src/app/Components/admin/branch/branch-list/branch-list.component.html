@@ -1,0 +1,59 @@
+<table class="data-table">
+</table>
+<div class="table-header">
+    <h1>Danh sách Chi nhánh</h1>
+    <div class="filters">
+        <select (change)="onFilterChange($event)">
+            <option value="">-- Lọc theo Thương hiệu --</option>
+            @for(store of stores; track store.id) {
+            <option [value]="store.id">{{ store.name }}</option>
+            }
+        </select>
+    </div>
+
+    <button routerLink="/admin/branches/new" class="btn-add">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+        </svg>
+        Thêm mới
+    </button>
+</div>
+
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên Chi nhánh</th>
+            <th>Địa chỉ</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (branch of branches; track branch.id) {
+        <tr>
+            <td>{{ branch.id }}</td>
+            <td>{{ branch.name }}</td>
+            <td>{{ branch.address }}</td>
+            <td>
+                <button [routerLink]="['/admin/branches/edit/',branch.id]" class="btn-edit">Sửa</button>
+                <button (click)="deleteBranch(branch.id)" class="btn-delete">Xóa</button>
+            </td>
+        </tr>
+        } @empty {
+        <tr>
+            <td colspan="4">Không có dữ liệu</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="pagination-controls">
+    <button (click)="loadBranches(currentPage - 1)" [disabled]="currentPage === 1">Trước</button>
+    <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button (click)="loadBranches(currentPage + 1)" [disabled]="currentPage === totalPages">Sau</button>
+</div>
+
+<div class="pagination-controls">
+</div>

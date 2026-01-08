@@ -1,0 +1,41 @@
+@if (product) {
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <header class="modal-header">
+      <button (click)="onClose()" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+        </svg>
+      </button>
+    </header>
+
+    <main class="modal-body">
+      <img [src]="'assets/img/'+product.imageUrl" alt="{{ product.name }}" class="product-image-large">
+
+      <div class="product-info-card">
+        <h2 class="product-title">{{ product.name }}</h2>
+        <div class="cover">
+          <div class="note-section">
+            <textarea [(ngModel)]="note" placeholder="Bạn có nhắn gì với nhà hàng không?"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer class="modal-footer">
+      <div class="quantity-selector">
+        <button (click)="decreaseQuantity()" class="quantity-btn">-</button>
+        <span>{{ quantity }}</span>
+        <button (click)="increaseQuantity()" class="quantity-btn">+</button>
+      </div>
+      <button (click)="onAddToCart()" class="btn-add-to-cart">
+        Thêm vào giỏ ({{ (product.price * quantity) | number }} đ)
+      </button>
+    </footer>
+  </div>
+</div>
+}

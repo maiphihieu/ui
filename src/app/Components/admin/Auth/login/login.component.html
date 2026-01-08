@@ -1,0 +1,25 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <h2>Đăng nhập Admin</h2>
+    <div class="form-group">
+      <label for="username">Tên đăng nhập</label>
+      <input id="username" type="text" formControlName="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Mật khẩu</label>
+      <input id="password" type="password" formControlName="password">
+    </div>
+    @if(errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+    }
+    <button type="submit" [disabled]="isLoading">Đăng nhập</button>
+  </form>
+</div>
+@if (isLoading) {
+  <div class="loading-overlay">
+    <div class="loading-content">
+      <img src="assets/img/stabus.png" alt="Logo" class="loading-logo">
+      <div class="spinner"></div>
+    </div>
+  </div>
+}

@@ -1,0 +1,66 @@
+<div class="admin-container">
+    <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <nav>
+            <a routerLink="/admin/stores">Quản lý cửa hàng</a>
+            <a routerLink="/admin/branches">Quản lý chi nhánh</a>
+            <a routerLink="/admin/categories">Quản lý Danh mục</a>
+            <a routerLink="/admin/products">Quản lý Sản phẩm</a>
+            <a routerLink="/admin/tables">Quản lý Bàn</a>
+            <a routerLink="/admin/orders">Quản lý Đơn hàng</a>
+            <a routerLink="/admin/users">Quản lý Người dùng</a>
+        </nav>
+        <button (click)="logout()" class="btn-logout">Đăng xuất</button>
+    </aside>
+    <main class="content">
+        <div class="animation-wrapper" [@routeAnimations]="getRouteAnimationData()">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+
+    <div class="notification-area">
+
+        @if(showCallList) {
+        <div class="call-list-panel">
+            <h5>Yêu cầu gọi nhân viên</h5>
+            <div class="call-list-content">
+
+                @for(call of staffCalls; track $index) {
+                <div class="call-message">
+                    <div class="message-header">
+                        <span class="table-name">Bàn {{ call.tableName }}</span>
+                        <span class="timestamp">{{ call.timestamp | date:'HH:mm' }}</span>
+                    </div>
+                    <div class="message-body">
+                        {{ call.message || 'Yêu cầu hỗ trợ.' }}
+                    </div>
+                    <button class="btn-reply" (click)="openChatForTable(call)">Trả lời</button>
+                </div>
+                } @empty {
+                <div class="empty-message">Không có yêu cầu nào.</div>
+                }
+            </div>
+        </div>
+        }
+
+        <button class="notification-bell" (click)="toggleCallList()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bell-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+            </svg>
+            @if(newStaffCallCount > 0) {
+            <span class="badge">{{ newStaffCallCount }}</span>
+            }
+        </button>
+    </div>
+
+   @if(activeChatToken) {
+    <app-admin-chat-modal 
+        [tableName]="activeChatTableName" 
+        [messages]="chatSessions.get(activeChatToken) || []"
+        (closeModal)="closeChatModal()" 
+        (submitMessage)="onAdminSendMessage($event)">
+    </app-admin-chat-modal>
+    }
+</div>

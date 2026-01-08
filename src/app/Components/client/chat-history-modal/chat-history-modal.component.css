@@ -1,0 +1,183 @@
+/* Thêm CSS này để tin nhắn chia 2 bên */
+.chat-message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 80%;
+}
+.chat-message p {
+  margin: 0;
+  word-wrap: break-word;
+}
+.chat-message .sender-name {
+  font-weight: bold;
+  font-size: 0.8em;
+  display: block;
+  margin-bottom: 2px;
+}
+.chat-message .timestamp {
+  font-size: 0.7em;
+  color: #777;
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Tin nhắn của Khách (bên phải) */
+.chat-message.customer {
+  background-color: #dcf8c6; /* Màu xanh lá nhạt */
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+/* Tin nhắn của Staff (bên trái) */
+.chat-message.staff {
+  background-color: #f1f0f0; /* Màu xám nhạt */
+  margin-right: auto;
+  align-self: flex-start;
+}
+
+.chat-display-area {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 300px; /* Hoặc chiều cao bạn muốn */
+  padding: 10px;
+}
+
+/* Lớp phủ mờ toàn màn hình */
+.modal-overlay {
+  position: fixed; /* <-- Đây là thuộc tính quan trọng nhất */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Nền mờ */
+  z-index: 1050; /* Nằm bên trên mọi thứ */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Đẩy modal xuống dưới */
+}
+
+/* Khung nội dung modal */
+.modal-content {
+  background: white;
+  width: 100%;
+  max-width: 500px; /* Giới hạn chiều rộng trên máy tính */
+  height: 70vh; /* Cao 70% chiều cao màn hình */
+  z-index: 1051;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+/* Hiệu ứng trượt từ dưới lên */
+.modal-content.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Header của Modal (chứa tiêu đề và nút X) */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.modal-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.btn-close-icon {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #888;
+}
+
+/* Khung nhập liệu (dưới cùng) */
+.chat-input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+.chat-input-area textarea {
+  flex: 1;
+  resize: none;
+  border-radius: 18px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  height: 40px; /* Chiều cao cố định */
+}
+.chat-input-area .btn-submit {
+  background: #007bff; /* Màu nút gửi */
+  color: white;
+  border: none;
+  border-radius: 50px; /* Nút tròn */
+  padding: 0 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ============================================== */
+/* == CSS CHO BONG BÓNG CHAT (BẠN ĐÃ CÓ) == */
+/* ============================================== */
+
+/* Sửa lại .chat-display-area để nó co giãn */
+.chat-display-area {
+  flex: 1; /* <-- Quan trọng: tự động lấp đầy không gian còn lại */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 10px;
+}
+.empty-chat {
+  text-align: center;
+  color: #999;
+  padding-top: 20px;
+}
+
+/* (Phần .chat-message của bạn giữ nguyên ở đây) */
+.chat-message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+.chat-message .sender-name {
+  font-weight: bold;
+  font-size: 0.8em;
+  display: block;
+  margin-bottom: 2px;
+}
+.chat-message .timestamp {
+  font-size: 0.7em;
+  color: #777;
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+.chat-message.customer {
+  background-color: #dcf8c6;
+  margin-left: auto;
+  align-self: flex-end;
+}
+.chat-message.staff {
+  background-color: #f1f0f0;
+  margin-right: auto;
+  align-self: flex-start;
+}

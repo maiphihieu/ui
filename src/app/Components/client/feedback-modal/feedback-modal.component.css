@@ -1,0 +1,182 @@
+/* --- Lớp phủ nền tối --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Căn modal ở dưới cùng */
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* --- Khung Modal chính --- */
+.modal-box {
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    max-width: 500px; /* Có thể điều chỉnh chiều rộng tối đa */
+    padding: 20px 25px 30px 25px; /* (trên, phải, dưới, trái) */
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Nút đóng modal (dấu X) */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+    line-height: 30px;
+    color: #888;
+    cursor: pointer;
+    text-align: center;
+}
+
+.modal-box h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* --- Phần đánh giá sao --- */
+.stars {
+    font-size: 40px;
+    color: #e0e0e0; /* Màu sao mặc định */
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.stars span {
+    transition: color 0.2s;
+}
+
+.stars span:hover,
+.stars span.selected {
+    color: #f7b731; /* Màu sao khi được chọn hoặc hover */
+}
+
+/* --- Phần phản hồi chi tiết --- */
+.feedback-section {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.feedback-section p {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Các tag lý do */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.tags button {
+    background: #f1f1f1;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.tags button.selected {
+    background: #f7941e;
+    color: white;
+    border-color: #f7941e;
+    font-weight: 500;
+}
+
+/* Ô nhập góp ý */
+textarea {
+    width: 100%;
+    min-height: 80px;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 15px;
+    resize: vertical;
+}
+
+/* --- Phần nhập số điện thoại --- */
+.phone-section {
+    margin-top: 25px;
+    text-align: left;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.phone-section p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+.phone-section input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+/* --- Nút Gửi đánh giá --- */
+.btn-submit {
+    background-color: #f7941e;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Hiệu ứng Animation --- */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

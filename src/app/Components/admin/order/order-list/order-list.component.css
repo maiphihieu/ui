@@ -1,0 +1,65 @@
+/* CSS cho hàng chi tiết */
+.details-row td {
+    padding: 0;
+    border-top: none; /* Bỏ đường viền trên để nó liền với hàng chính */
+}
+
+.details-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+.details-container h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Bảng chi tiết sản phẩm bên trong */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-table th, .detail-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.detail-table th {
+    background-color: #e9ecef;
+}
+
+.order-row:hover {
+    background-color: #f1f5f9; /* Giữ lại hiệu ứng hover */
+}
+
+tr.highlight {
+  background-color: #fffbe6 !important;
+  transition: background-color 0.5s ease-in-out;
+}
+
+/* Thêm style cho nút Hoàn thành */
+.btn-complete {
+    border: none;
+    padding: 3px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 4px;
+    color: white;
+    background: linear-gradient(135deg, #2ecc71, #28b463); /* Màu xanh lá */
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-complete:hover {
+    background: linear-gradient(135deg, #28b463, #239b56);
+    transform: translateY(-2px);
+}
+
+tr.payment-request {
+  background-color: #e6ffed !important; /* Màu xanh lá cây nhạt */
+}

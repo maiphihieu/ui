@@ -1,0 +1,29 @@
+<div class="admin-chat-overlay" (click)="close()">
+  <div class="admin-chat-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>Hỗ trợ bàn: {{ tableName }}</h4>
+      <button (click)="close()" class="btn-close-icon">X</button>
+    </div>
+    
+    <div class="chat-display-area" #chatDisplayArea>
+      @for(msg of messages; track $index) {
+        <div class="chat-message" [ngClass]="msg.sender">
+          <span class="sender-name">
+            {{ msg.sender === 'staff' ? 'Bạn (Admin)' : 'Khách' }}
+          </span>
+          <p>{{ msg.text }}</p>
+          <span class="timestamp">{{ msg.timestamp | date:'HH:mm' }}</span>
+        </div>
+      } @empty {
+        <p class="empty-chat">Chưa có tin nhắn nào.</p>
+      }
+    </div>
+
+    <div class="chat-input-area">
+      <textarea [(ngModel)]="messageText" 
+                placeholder="Nhập tin nhắn trả lời..."
+                (keydown.enter)="submit(); $event.preventDefault()"></textarea>
+      <button (click)="submit()" class="btn-submit">Gửi</button>
+    </div>
+  </div>
+</div>

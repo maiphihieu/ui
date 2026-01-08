@@ -1,0 +1,62 @@
+<div class="cart-container">
+  
+  @if (cartItems$ | async; as items) {
+    <header class="cart-header">
+      <button (click)="goBack()" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+      </button>
+      <h2 class="header-title">Các món đang chọn</h2>
+      
+      @if (items.length > 0) {
+        <button (click)="confirmClearCart()" class="clear-cart-btn">Xóa giỏ</button>
+      }
+    </header>
+
+    @if (items.length > 0) {
+      <main class="cart-content">
+        @for (item of items; track item.product.id) {
+          <div class="cart-item">
+            <img [src]="'assets/img/'+ item.product.imageUrl" class="item-image">
+            <div class="item-details">
+              <span class="item-quantity-name">{{ item.quantity }} x <strong>{{ item.product.name }}</strong></span>
+              <span class="item-price">{{ item.product.price | number }} đ</span>
+            </div>
+            <div class="item-actions">
+                <button (click)="removeItem(item)" class="btn-remove-item">&times;</button>
+                <div class="quantity-controls">
+                    <button (click)="decreaseQuantity(item)" class="quantity-btn">-</button>
+                    <span>{{ item.quantity }}</span>
+                    <button (click)="increaseQuantity(item)" class="quantity-btn">+</button>
+                </div>
+            </div>
+          </div>
+        }
+        
+        <div class="total-section">
+          <span>Tổng tiền</span>
+          <strong>{{ cartService.getTotalAmount() | number }} đ</strong>
+        </div>
+      </main>
+
+      <footer class="cart-footer">
+        <button (click)="placeOrder()" class="btn-place-order">Xác nhận gửi yêu cầu gọi món</button>
+      </footer>
+
+    } @else {
+      <div class="empty-cart">
+        <img src="assets/img/cart_empty.jpg" alt="Giỏ hàng trống" class="empty-cart-img">
+        <h3>Không có món ăn trong giỏ hàng</h3>
+        <p>Hãy chọn món mà bạn thích nhé!</p>
+        <button [routerLink]="['/menu', token]" class="btn-back-to-menu">Chọn món từ menu ngay!</button>
+      </div>
+    }
+  }
+</div>
+@if (isConfirmModalVisible) {
+  <app-confirmation-modal 
+    [message]="confirmMessage"
+    (confirmed)="handleConfirmation($event)">
+  </app-confirmation-modal>
+}

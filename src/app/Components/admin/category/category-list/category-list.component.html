@@ -1,0 +1,50 @@
+<div class="table-header">
+  <h1>Danh sách Danh mục</h1>
+  
+  <div class="filters">
+    <select (change)="onStoreFilterChange($event)">
+      <option value="">-- Lọc theo Thương hiệu --</option>
+      @for(store of stores; track store.id) {
+        <option [value]="store.id">{{ store.name }}</option>
+      }
+    </select>
+  </div>
+
+  <a routerLink="/admin/categories/new" class="btn-add">Thêm mới</a>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Hình ảnh</th>
+      <th>Tên danh mục</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (category of categories; track category.id) {
+      <tr>
+        <td>{{ category.id }}</td>
+        <td>
+          <img [src]="'assets/img/'+category.logoUrl" alt="logo" class="thumbnail">
+        </td>
+        <td>{{ category.name }}</td>
+        <td>
+          <a [routerLink]="['/admin/categories/edit', category.id]" [queryParams]="{ storeId: selectedStoreId }" class="btn-edit">Sửa</a>
+          <button (click)="deleteCategory(category.id)" class="btn-delete">Xóa</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="4">Hãy chọn một thương hiệu để xem danh mục</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<div class="pagination-controls">
+  <button (click)="loadCategories(currentPage - 1)" [disabled]="currentPage === 1">Trước</button>
+  <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+  <button (click)="loadCategories(currentPage + 1)" [disabled]="currentPage === totalPages">Sau</button>
+</div>

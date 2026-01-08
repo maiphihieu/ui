@@ -1,0 +1,28 @@
+<h2>{{ pageTitle }}</h2>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="data-form">
+  <div class="form-group">
+    <label for="storeId">Thuộc Thương hiệu</label>
+    <select id="storeId" formControlName="storeId">
+      <option [value]="null" disabled>-- Chọn thương hiệu --</option>
+      @for(store of stores; track store.id) {
+        <option [value]="store.id">{{ store.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="name">Tên danh mục</label>
+    <input id="name" type="text" formControlName="name">
+  </div>
+
+  <div class="form-group">
+    <label for="logoUrl">URL Logo</label>
+    <input id="logoUrl" type="text" formControlName="logoUrl">
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="categoryForm.invalid" class="btn-add">Lưu</button>
+    <button type="button" (click)="goBack()" class="btn-cancel">Hủy</button>
+  </div>
+</form>

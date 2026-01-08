@@ -1,0 +1,9 @@
+<div class="modal-overlay" (click)="onCancel()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <p class="modal-message">{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="onCancel()">Không</button>
+      <button class="btn-primary" (click)="onConfirm()">Đồng ý</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="table-header">
+  <h1>Quản lý Người dùng</h1>
+<button routerLink="/admin/users/new" class="btn-add">Thêm mới</button>
+</div>
+
+
+@if(isLoading) {
+  <p>Đang tải danh sách người dùng...</p>
+} @else {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Tên đăng nhập</th>
+        <th>Vai trò</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(user of users; track user.id) {
+        <tr>
+          <td>{{ user.username }}</td>
+          <td><span class="role-badge role-{{user.role | lowercase}}">{{ user.role }}</span></td>
+          <td>
+            <button [routerLink]="['/admin/users/edit', user.id]" class="btn-edit">Sửa</button>
+            <button (click)="deleteUser(user)" class="btn-delete">Xóa</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3">Không có người dùng nào.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

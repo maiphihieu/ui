@@ -1,0 +1,48 @@
+<h2>{{ pageTitle }}</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="data-form">
+  <div class="form-group">
+    <label for="storeId">Thuộc Thương hiệu</label>
+    <select id="storeId" formControlName="storeId">
+      <option [value]="null" disabled>-- Chọn thương hiệu --</option>
+      @for(store of stores; track store.id) {
+        <option [value]="store.id">{{ store.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="categoryId">Thuộc Danh mục</label>
+    <select id="categoryId" formControlName="categoryId" [disabled]="!productForm.get('storeId')?.value">
+      <option [value]="null" disabled>-- Chọn danh mục --</option>
+      @for(category of categories; track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>`
+
+  <div class="form-group">
+    <label for="name">Tên sản phẩm</label>
+    <input id="name" type="text" formControlName="name">
+  </div>
+
+  <div class="form-group">
+    <label for="price">Giá</label>
+    <input id="price" type="number" formControlName="price">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Mô tả</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="imageUrl">URL Hình ảnh</label>
+    <input id="imageUrl" type="text" formControlName="imageUrl">
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="productForm.invalid" class="btn-add">Lưu</button>
+    <button type="button" (click)="goBack()" class="btn-cancel">Hủy</button>
+  </div>
+</form>

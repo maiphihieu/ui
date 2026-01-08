@@ -1,0 +1,9 @@
+<div class="modal-overlay" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h4>Gọi nhân viên</h4>
+    <p>Bạn muốn yêu cầu nhân viên làm gì?</p>
+    <textarea [(ngModel)]="message" placeholder="Ví dụ: Xin thêm giấy ăn... (Không bắt buộc)"></textarea>
+    <button (click)="submit()" class="btn-submit">Gửi yêu cầu</button>
+    <button (click)="close()" class="btn-close">Đóng</button>
+  </div>
+</div>

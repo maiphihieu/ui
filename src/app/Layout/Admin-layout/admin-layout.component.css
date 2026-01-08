@@ -1,0 +1,306 @@
+.admin-container {
+  display: flex; /* Bật Flexbox */
+  height: 100vh; /* Quan trọng: Giới hạn chiều cao */
+  background-color: #f8f9fa;
+  overflow: hidden; /* Ngăn container chính cuộn */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px; /* Chiều rộng cố định */
+  flex-shrink: 0; /* Ngăn sidebar bị co lại */
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow-y: auto; /* Cho phép sidebar cuộn nếu nội dung dài */
+  z-index: 100; /* Đảm bảo sidebar ở trên */
+  /* Bỏ position: fixed và height: 100vh */
+}
+
+.sidebar h2 {
+  margin: 0;
+  padding: 28px 24px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0d6efd;
+  background-color: #ffffff;
+  border-bottom: 2px solid #e9ecef;
+  flex-shrink: 0; /* Đảm bảo header không co lại */
+}
+
+/* Navigation */
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Cho phép nav chiếm hết không gian còn lại */
+  padding: 16px 0;
+  overflow-y: auto; /* Cho phép cuộn riêng phần nav nếu quá dài */
+}
+
+.sidebar nav a {
+  padding: 14px 24px;
+  margin: 4px 12px;
+  color: #495057;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  position: relative;
+}
+
+.sidebar nav a:hover {
+  background-color: #e7f1ff;
+  color: #0d6efd;
+  transform: translateX(4px);
+}
+
+.sidebar nav a.active {
+  background-color: #0d6efd;
+  color: white;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+}
+
+.sidebar nav a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background-color: white;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Logout Button */
+.btn-logout {
+  margin: 16px 12px;
+  padding: 12px 24px;
+  background-color: #ffffff;
+  color: #dc3545;
+  border: 2px solid #dc3545;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Đảm bảo nút không co lại */
+}
+
+.btn-logout:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Main Content */
+.content {
+  flex-grow: 1; /* Cho phép content chiếm hết phần còn lại */
+  padding: 32px;
+  background-color: #f8f9fa;
+overflow: hidden;
+  position: relative; /* Giữ lại để kiểm soát stacking context (nếu cần cho animation) */
+  z-index: 1; /* Đảm bảo content không đè lên cái gì khác */
+  /* Bỏ margin-left và min-height */
+}
+
+.animation-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Scrollbar cho sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #dee2e6;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+/* === Notification Area === */
+.notification-area {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1050; /* Cao hơn nội dung chính */
+  display: flex;
+  flex-direction: column-reverse; /* Để panel hiện lên trên nút */
+  align-items: flex-end;
+}
+
+/* Notification Bell Button */
+.notification-bell {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  position: relative; /* Để chứa badge */
+}
+
+.notification-bell:hover {
+  transform: scale(1.1);
+}
+
+.notification-bell svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Badge for new notification count */
+.notification-bell .badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+}
+
+
+/* === Call List Panel (Chat-like) === */
+.call-list-panel {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 250px; /* Chiều rộng mong muốn */
+  height: 400px; /* Chiều cao mong muốn */
+  margin-bottom: 15px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column; /* Để header cố định */
+}
+
+.call-list-panel h5 {
+  margin: 0;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.call-list-content {
+  padding: 10px;
+  overflow-y: auto; /* Cho phép cuộn nội dung tin nhắn */
+  flex-grow: 1; /* Chiếm hết phần còn lại */
+}
+
+/* Style cho từng tin nhắn yêu cầu */
+.call-message {
+  background-color: #e7f1ff; /* Nền xanh nhạt giống chat bubble */
+  border-radius: 12px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  position: relative; /* Để chứa nút dismiss */
+  border: 1px solid #dbeafe;
+}
+
+.call-message.new {
+   animation: fadeIn 0.5s ease-out; /* Hiệu ứng cho tin nhắn mới */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.table-name {
+  font-weight: 600;
+  color: #0d6efd; /* Màu xanh dương */
+  font-size: 14px;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #64748b; /* Màu xám */
+}
+
+.message-body {
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 10px;
+  word-wrap: break-word; /* Tự động xuống dòng nếu tin nhắn dài */
+}
+
+.btn-dismiss {
+  position: absolute; /* Đặt nút ở góc */
+  bottom: 8px;
+  right: 10px;
+  background-color: transparent;
+  color: #64748b;
+  border: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.btn-dismiss:hover {
+  color: #1e293b;
+  text-decoration: underline;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 30px 15px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* --- Scrollbar cho panel --- */
+.call-list-content::-webkit-scrollbar {
+  width: 6px;
+}
+.call-list-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+.call-list-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.call-list-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

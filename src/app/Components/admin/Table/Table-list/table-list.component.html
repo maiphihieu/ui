@@ -1,0 +1,55 @@
+<div class="table-header">
+  <h1>Danh sách Bàn</h1>
+  
+  <div class="filters">
+    <select (change)="onStoreChange($event)">
+      <option value="">-- Lọc theo Thương hiệu --</option>
+      @for(store of stores; track store.id) {
+        <option [value]="store.id">{{ store.name }}</option>
+      }
+    </select>
+
+    <select (change)="onBranchChange($event)" [disabled]="!selectedStoreId">
+      <option value="">-- Lọc theo Chi nhánh --</option>
+      @for(branch of branches; track branch.id) {
+        <option [value]="branch.id">{{ branch.name }}</option>
+      }
+    </select>
+  </div>
+
+  <a routerLink="/admin/tables/new" class="btn-add">Thêm mới</a>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên bàn</th>
+      <th>Token</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (table of tables; track table.id) {
+      <tr>
+        <td>{{ table.id }}</td>
+        <td>{{ table.name }}</td>
+        <td>{{ table.token }}</td>
+        <td>
+          <a [routerLink]="['/admin/tables/edit', table.id]" class="btn-edit">Sửa</a>
+          <button class="btn-delete">Xóa</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="4">Không có dữ liệu</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<div class="pagination-controls">
+  <button (click)="loadTables(currentPage - 1)" [disabled]="currentPage === 1">Trước</button>
+  <span>Trang {{ currentPage }} / {{ totalPages }} (Tổng số: {{ totalCount }})</span>
+  <button (click)="loadTables(currentPage + 1)" [disabled]="currentPage === totalPages">Sau</button>
+</div>

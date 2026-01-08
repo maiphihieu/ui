@@ -1,0 +1,93 @@
+<div class="container">
+    @if(isLoading) {
+    <p style="text-align: center; padding: 50px;">Đang tải dữ liệu...</p>
+    } @else if(store && branch && table) {
+    <header class="header">
+        <h1>{{ store.name }}</h1>
+        <p><img src="assets/img/local.png" alt="vitri">{{ branch.address }}</p>
+        <div class="lang-selector">
+            <img src="assets/img/laco.png" alt="laco">
+            <span class="arrow"></span>
+        </div>
+    </header>
+
+    <div class="hero-banner">
+        <img src="assets/img/sale.jpg" alt="Menu điện tử">
+    </div>
+
+    <div class="welcome-message">
+        <p>{{ greeting }} <strong>Quý khách</strong></p>
+        <span>Chúng tôi sẽ trả đồ cho bạn tại bàn: <strong>{{ table.name }}</strong></span>
+    </div>
+
+    <div class="loyalty-card">
+        <div class="left">
+            <img src="assets/img/img-request-login.png" alt="shopping">
+            <span>Nhập số điện thoại để tích điểm</span>
+        </div>
+        <div class="arrow-icon">
+            <i></i>
+        </div>
+    </div>
+    <div class="boxservice">
+        <div class="quick-actions">
+            <div class="action-item" (click)="openPaymentModal()">
+                <span>Gọi thanh toán</span>
+                <img src="assets/img/request_payment_2.png" alt="Thanh toán">
+            </div>
+            @if (isPaymentModalVisible) {
+            <app-payment-modal [tableName]="table.name || ''" (close)="isPaymentModalVisible = false"
+                (request)="handlePaymentRequest($event)">
+            </app-payment-modal>
+            }
+            <div class="action-item" (click)="openCallStaffModal()">
+                <span>Gọi nhân viên</span>
+                <img src="assets/img/bg-request_service.png" alt="Nhân viên">
+            </div>
+            @if (showCallStaffModal) {
+            <app-call-staff-modal (closeModal)="onCloseCallStaffModal()" (submitRequest)="onSubmitStaffRequest($event)">
+            </app-call-staff-modal>
+            }
+
+            <div class="action-item" (click)="openFeedbackModal()">
+                <span>Đánh giá</span>
+                <img src="assets/img/bg-rate.png" alt="Đánh giá">
+            </div>
+            @if (isFeedbackModalVisible) {
+            <app-feedback-modal [token]="token || ''" (close)="isFeedbackModalVisible = false">
+            </app-feedback-modal>
+            }
+        </div>
+
+        <a [routerLink]="['/menu', table.token]" class="main-cta">
+            Xem Menu - Gọi món
+            <div class="arrow-icon">
+                <i></i>
+            </div>
+        </a>
+    </div>
+    @if (showChatHistoryModal) {
+    <app-chat-history-modal [messages]="chatMessages" (closeModal)="onCloseChatHistoryModal()"
+        (submitMessage)="onSendChatMessage($event)">
+    </app-chat-history-modal>
+    }
+
+    } @else {
+    <div style="text-align: center; padding: 50px;">
+        <h2>Token không hợp lệ!</h2>
+        <p>Vui lòng quét lại mã QR tại bàn.</p>
+    </div>
+    }
+    <div class="footer">
+        <a href="https://ipos.vn/giai-phap-menu-dien-tu/">Powered by <strong>HT.vn</strong></a>
+
+        <div class="footer-logo" (click)="openChatHistoryModal()">
+            <img src="assets/img/notification.png" alt="logo">
+
+            @if(unreadMessageCount > 0) {
+            <span class="notification-badge">{{ unreadMessageCount }}</span>
+            }
+
+        </div>
+    </div>
+</div>
