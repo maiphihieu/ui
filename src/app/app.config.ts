@@ -1,35 +1,34 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './Auth Guard/auth.interceptor';
+
 
 import { provideToastr } from 'ngx-toastr';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { authInterceptor } from './Auth Guard/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
       routes,
-      // 2. Thêm tùy chọn này vào
       withInMemoryScrolling({
-        scrollPositionRestoration: 'top', // Luôn cuộn lên đầu trang mới
-        anchorScrolling: 'enabled',          // Cho phép cuộn đến anchor (nếu có)
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled'
       })
     ),
-    provideBrowserGlobalErrorListeners(),
-   
-  
-    provideHttpClient(withInterceptors([authInterceptor])),
-    provideRouter(routes),
-    provideAnimationsAsync(),
-    provideToastr({      // Cấu hình cho toastr
+
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    ),
+
+    provideAnimations(),
+
+    provideToastr({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
-    
+      preventDuplicates: true
+    })
   ]
 };
