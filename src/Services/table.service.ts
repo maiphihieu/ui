@@ -8,20 +8,32 @@ import { PaginatedResult } from '../Models/paginated-result.model';
   providedIn: 'root'
 })
 export class TableService {
-  private readonly backendUrl = 'http://localhost:5019/api/tables';
+  private readonly backendUrl = 'https://api-ipos.onrender.com/api/tables';
+
   constructor(private http: HttpClient) { }
-   getTables(storeId: number | null, branchId: number | null, page: number, pageSize: number): Observable<PaginatedResult<Table>> {
+
+  getTables(
+    storeId: number | null,
+    branchId: number | null,
+    page: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Table>> {
     let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', pageSize.toString());
-      
+
     if (storeId) {
       params = params.set('storeId', storeId.toString());
     }
+
     if (branchId) {
       params = params.set('branchId', branchId.toString());
     }
-    return this.http.get<PaginatedResult<Table>>(this.backendUrl, { params });
+
+    return this.http.get<PaginatedResult<Table>>(
+      this.backendUrl,
+      { params }
+    );
   }
 
   getTableById(id: number): Observable<Table> {
@@ -35,10 +47,14 @@ export class TableService {
   updateTable(id: number, data: Partial<Table>): Observable<any> {
     return this.http.put(`${this.backendUrl}/${id}`, data);
   }
-  deleteTable(id:number):Observable<any>{
-    return this.http.delete(`${this.backendUrl}/${id}`)
+
+  deleteTable(id: number): Observable<any> {
+    return this.http.delete(`${this.backendUrl}/${id}`);
   }
+
   getTableByToken(token: string): Observable<Table> {
-     return this.http.get<Table>(`${this.backendUrl}/by-token/${token}`);
-   }
+    return this.http.get<Table>(
+      `${this.backendUrl}/by-token/${token}`
+    );
+  }
 }

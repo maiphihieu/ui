@@ -4,25 +4,31 @@ import { Observable } from 'rxjs';
 import { Category } from '../Models/category.model';
 import { PaginatedResult } from '../Models/paginated-result.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private readonly backendUrl = 'http://localhost:5019/api/categories';
+  private readonly backendUrl = 'https://api-ipos.onrender.com/api/categories';
 
   constructor(private http: HttpClient) { }
 
-  getCategories(storeId: number | null, page: number, pageSize: number): Observable<PaginatedResult<Category>> {
+  getCategories(
+    storeId: number | null,
+    page: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Category>> {
     let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', pageSize.toString());
-    
+
     if (storeId) {
       params = params.set('storeId', storeId.toString());
     }
 
-    return this.http.get<PaginatedResult<Category>>(this.backendUrl, { params });
+    return this.http.get<PaginatedResult<Category>>(
+      this.backendUrl,
+      { params }
+    );
   }
 
   getCategoryById(id: number): Observable<Category> {

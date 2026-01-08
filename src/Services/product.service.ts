@@ -8,21 +8,32 @@ import { PaginatedResult } from '../Models/paginated-result.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private readonly backendUrl = 'http://localhost:5019/api/products';
+  private readonly backendUrl = 'https://api-ipos.onrender.com/api/products';
+
   constructor(private http: HttpClient) { }
-  getProducts(storeId: number | null, categoryId: number | null, page: number, pageSize: number): Observable<PaginatedResult<Product>> {
+
+  getProducts(
+    storeId: number | null,
+    categoryId: number | null,
+    page: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Product>> {
     let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', pageSize.toString());
-    
+
     if (storeId) {
       params = params.set('storeId', storeId.toString());
     }
+
     if (categoryId) {
       params = params.set('categoryId', categoryId.toString());
     }
 
-    return this.http.get<PaginatedResult<Product>>(this.backendUrl, { params });
+    return this.http.get<PaginatedResult<Product>>(
+      this.backendUrl,
+      { params }
+    );
   }
 
   getProductById(id: number): Observable<Product> {

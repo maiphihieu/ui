@@ -5,26 +5,33 @@ import { Store } from '../Models/store.model';
 import { PaginatedResult } from '../Models/paginated-result.model';
 import { Menu } from '../Models/menu.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-  private readonly backendUrl = 'http://localhost:5019/api/stores';
+  private readonly backendUrl = 'https://api-ipos.onrender.com/api/stores';
 
   constructor(private http: HttpClient) { }
 
-  getStores(pageNumber: number, pageSize: number): Observable<PaginatedResult<Store>> {
+  getStores(
+    pageNumber: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Store>> {
     const params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<PaginatedResult<Store>>(this.backendUrl, { params });
+    return this.http.get<PaginatedResult<Store>>(
+      this.backendUrl,
+      { params }
+    );
   }
 
   getFullMenu(storeId: number): Observable<Menu[]> {
-  return this.http.get<Menu[]>(`${this.backendUrl}/${storeId}/menu`);
-}
+    return this.http.get<Menu[]>(
+      `${this.backendUrl}/${storeId}/menu`
+    );
+  }
 
   getStoreById(id: number): Observable<Store> {
     return this.http.get<Store>(`${this.backendUrl}/${id}`);

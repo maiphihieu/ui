@@ -17,7 +17,7 @@ export class SignalrService {
     if (!token) return;
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5019/orderHub', {
+      .withUrl('https://api-ipos.onrender.com/orderHub', {
         accessTokenFactory: () => token
       })
       .withAutomaticReconnect()
@@ -26,57 +26,76 @@ export class SignalrService {
     this.hubConnection.start()
       .then(() => console.log('SignalR Connection started.'))
       .catch(err => console.error('Error starting SignalR connection: ', err));
-  }
+  };
 
   public startAnonymousConnection = () => {
-    if (this.hubConnection && this.hubConnection.state !== signalR.HubConnectionState.Disconnected) {
+    if (
+      this.hubConnection &&
+      this.hubConnection.state !== signalR.HubConnectionState.Disconnected
+    ) {
       return Promise.resolve();
     }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5019/orderHub')
+      .withUrl('https://api-ipos.onrender.com/orderHub')
       .withAutomaticReconnect()
       .build();
 
     return this.hubConnection.start()
       .then(() => console.log('SignalR Connection started (Anonymous).'))
       .catch(err => console.error('Error starting SignalR anonymous connection: ', err));
-  }
+  };
 
   public stopConnection = () => {
     if (this.hubConnection) {
       this.hubConnection.stop();
     }
-  }
-  public addReceiveOrderNotificationListener = (callback: (data: { message: string, orderId: number }) => void) => {
-    this.hubConnection.on('ReceiveNewOrderNotification', (data) => {
-      callback(data);
-    });
+  };
+
+  public addReceiveOrderNotificationListener(
+    callback: (data: { message: string; orderId: number }) => void
+  ) {
+    this.hubConnection.on('ReceiveNewOrderNotification', callback);
   }
 
-  public addReceivePaymentRequestListener = (callback: (data: { message: string, orderId: number }) => void) => {
-    this.hubConnection.on('ReceivePaymentRequest', (data) => {
-      callback(data);
-    });
+  public addReceivePaymentRequestListener(
+    callback: (data: { message: string; orderId: number }) => void
+  ) {
+    this.hubConnection.on('ReceivePaymentRequest', callback);
   }
 
   public joinTableRoom(tableToken: string) {
     if (this.hubConnection?.state === signalR.HubConnectionState.Connected) {
-      this.hubConnection.invoke('JoinTableRoom', tableToken)
+      this.hubConnection
+        .invoke('JoinTableRoom', tableToken)
         .catch(err => console.error('Error joining table room:', err));
     }
   }
 
-  public sendMessageFromCustomer(tableToken: string, tableName: string, message: string, isFirst: boolean) {
-    const request = { TableToken: tableToken, Message: message, IsFirstMessage: isFirst, TableName: tableName };
+  public sendMessageFromCustomer(
+    tableToken: string,
+    tableName: string,
+    message: string,
+    isFirst: boolean
+  ) {
+    const request = {
+      TableToken: tableToken,
+      Message: message,
+      IsFirstMessage: isFirst,
+      TableName: tableName
+    };
+
     if (this.hubConnection?.state === signalR.HubConnectionState.Connected) {
-      this.hubConnection.invoke('SendMessageFromCustomer', request)
+      this.hubConnection
+        .invoke('SendMessageFromCustomer', request)
         .catch(err => console.error('Error sending customer message:', err));
     }
   }
 
   public sendMessageFromStaff(tableToken: string, message: string) {
     if (this.hubConnection?.state === signalR.HubConnectionState.Connected) {
-      this.hubConnection.invoke('SendMessageFromStaff', tableToken, message)
+      this.hubConnection
+        .invoke('SendMessageFromStaff', tableToken, message)
         .catch(err => console.error('Error sending staff message:', err));
     }
   }
